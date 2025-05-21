@@ -12,3 +12,40 @@
 #for nav bar, I should have nav bar.html, and dynamically insert it into each one, so if I make changes in the nav bar, I only change it once
 
 #templates folder would have files for: about.html, index.html, micro.html, graph.svg, map.svg (would prob have one for all 5 boros)
+
+
+from flask import Flask
+from flask import render_template
+from flask import request
+import json
+
+app = Flask(__name__, static_url_path='', static_folder='static')
+
+
+@app.route('/')
+def index():
+    f = open("data/data.json", "r")
+    data = json.load(f)
+    f.close()
+
+    
+    
+    return render_template('index.html')
+
+
+
+
+@app.route('/micro')
+def micro():
+    f = open("data/data.json", "r")
+    data = json.load(f)
+    f.close()
+    
+   
+
+
+    return render_template('micro.html')
+
+
+
+app.run(debug=True)
