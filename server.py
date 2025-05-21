@@ -13,6 +13,8 @@
 
 #templates folder would have files for: about.html, index.html, micro.html, graph.svg, map.svg (would prob have one for all 5 boros)
 
+#find the life expectancy code on the Trinity shared github
+
 
 from flask import Flask
 from flask import render_template
@@ -25,7 +27,7 @@ app = Flask(__name__, static_url_path='', static_folder='static')
 @app.route('/')
 def index():
     f = open("data/data.json", "r")
-    data = json.load(f)
+    #data = json.load(f)
     f.close()
 
     
@@ -38,7 +40,7 @@ def index():
 @app.route('/micro')
 def micro():
     f = open("data/data.json", "r")
-    data = json.load(f)
+    #data = json.load(f)
     f.close()
     
    
