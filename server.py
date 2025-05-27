@@ -48,6 +48,11 @@ def micro():
 
     return render_template('micro.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 
 
 app.run(debug=True)
+
