@@ -1,9 +1,12 @@
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 -30 850 600" width="890" height="630">
-    <!-- graph title -->
+     <!-- graph title -->
 
-    <text class="label" x="300 " y="0" text-anchor="middle" style="font-size: 30px;" fill="black" >Population Changes</text> 
+     <text class="label" x="300 " y="0" text-anchor="middle" style="font-size: 30px;" fill="black" >North American Life Expectancies 1960-2022</text> 
      
+     
+     <!-- x axis -->
+     <line class="line" x1= "52" y1="500" x2="548" y2="500" stroke-linecap="round" stroke = "black" />
 
 
 </svg>
