@@ -77,4 +77,6 @@ f2 = open("data.json", "w")
 json.dump(borough_aggs, f2, indent = 4)
 
 f2.close()
+
+#now do full json for all neighborhood data 
     
