@@ -20,8 +20,6 @@ lines = f1.readlines()
 
 
 ####GET DATA INTO LISTS FOR EACH ROW
-#fix this to include thelast decimal of the great kills, I probably ended a loop too early so it didn't include the last decimal
-
 
 
 data_list= []
@@ -46,12 +44,14 @@ for row_i in range (len (lines)):
         else:
             if char_i == len(lines[row_i]) - 1:
                 s= ""
-                s+=lines[row_i][start: char_i]
+                s+=lines[row_i][start:].strip()
                 row_list.append(s)
         
     data_list.append(row_list)
 
-print (data_list)
+
+#print (data_list)
+
 
 #create borough json
 
@@ -86,9 +86,6 @@ for data_i in range (1, len(data_list)):
     full_data[data_list[data_i][0]] [data_list[data_i][1]] = data_list[data_i][2:]
 
 #print (full_data)
-
-
-#the last decimal of the last Great Kills entry isn't in, this happened when I was trying to get the data list
 
 
 f1.close()
