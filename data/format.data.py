@@ -48,8 +48,9 @@ for row_i in range (len (lines)):
         
     data_list.append(row_list)
 
-#print (data_list)
+print (data_list)
 
+#create borough json
 
 boroughs = ["Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]
 
@@ -69,14 +70,39 @@ for b in boroughs:
 
     borough_aggs[b] = [old_pop, new_pop, pop_change, percent_change]
 
-print (borough_aggs)
+#print (borough_aggs)
+
+#neighborhood json 
+
+full_data = {}
+
+for b in boroughs:
+    full_data[b] = {}
+
+for data_i in range (1, len(data_list)):
+    full_data[data_list[data_i][0]] [data_list[data_i][1]] = data_list[data_i][2:]
+
+#print (full_data)
+
 
 f1.close()
 
-f2 = open("data.json", "w")
+f2 = open("borough_agg.json", "w")
 json.dump(borough_aggs, f2, indent = 4)
 
 f2.close()
 
-#now do full json for all neighborhood data 
+f3 = open("full_data.json", "w")
+json.dump(full_data, f3, indent = 4)
+
+f3.close()
+
+
+
+
+
+
+
+
+
     
