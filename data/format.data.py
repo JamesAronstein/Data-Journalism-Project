@@ -90,12 +90,12 @@ for data_i in range (1, len(data_list)):
 
 f1.close()
 
-f2 = open("borough_agg.json", "w")
+f2 = open("borough_agg_data.json", "w")
 json.dump(borough_aggs, f2, indent = 4)
 
 f2.close()
 
-f3 = open("full_data.json", "w")
+f3 = open("neighborhood_data.json", "w")
 json.dump(full_data, f3, indent = 4)
 
 f3.close()
