@@ -49,6 +49,8 @@ for row_i in range (len (lines)):
         
     data_list.append(row_list)
 
+   
+
 
 #print (data_list)
 
@@ -83,9 +85,28 @@ for b in boroughs:
     full_data[b] = {}
 
 for data_i in range (1, len(data_list)):
-    full_data[data_list[data_i][0]] [data_list[data_i][1]] = data_list[data_i][2:]
+    full_data[data_list[data_i][0]] [data_list[data_i][1]] = (data_list[data_i][2:])
+
 
 #print (full_data)
+
+n_data = full_data
+
+for b in full_data:
+    for n in full_data[b]:
+
+        #1st-3rd values [0, 1, 2] are ints
+        for i in range (len(full_data[b][n]) - 1):
+            n_data[b][n][i] = int(full_data[b][n][i])
+        
+        #the 4th value [3], percent change, is a float
+        n_data[b][n][3] = float(full_data[b][n][3])
+
+
+
+
+
+
 
 
 f1.close()
@@ -96,16 +117,6 @@ json.dump(borough_aggs, f2, indent = 4)
 f2.close()
 
 f3 = open("neighborhood_data.json", "w")
-json.dump(full_data, f3, indent = 4)
+json.dump(n_data, f3, indent = 4)
 
 f3.close()
-
-
-
-
-
-
-
-
-
-    

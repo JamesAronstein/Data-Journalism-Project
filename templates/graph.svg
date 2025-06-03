@@ -11,5 +11,6 @@
      <!-- yaxis -->
      <line class="line" x1= "{{ y_axis_x }}" y1="{{ y_axis_bottom }}" x2="{{ y_axis_x }}" y2="{{ y_axis_top }}" stroke-linecap="round" stroke = "black" />
 
+     <text class="label" x="{{ x_axis_mid }}" y="{{ x_axis_y + 40 }} " text-anchor="middle" dominant-baseline="hanging" >Population</text> 
 
 </svg>

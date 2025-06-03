@@ -15,6 +15,8 @@
 
 #find the life expectancy code on the Trinity shared github
 
+##FIX THE FORMAT DATA TO GET THE VALUES IN NEIGHBORHOOD DATA TO BE NUMS, NOT STRINGS
+
 
 from flask import Flask
 from flask import render_template
@@ -25,7 +27,6 @@ app = Flask(__name__, static_url_path='', static_folder='static')
 
 boroughs = ["Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]
 
-
 def get_max_min_pop (borough):
     f = open("data/neighborhood_data.json", "r")
     n_data = json.load(f)
@@ -34,8 +35,9 @@ def get_max_min_pop (borough):
     pop_values = []
 
     for n in n_data[borough]:
+        print (n_data[borough][n])
         pop_values.append(n_data[borough][n][0])
-        pop_values.append(n_data[borough][n][0])
+        pop_values.append(n_data[borough][n][1])
 
     min_max = []
     #first element [0] is the min, second element [1] is the max
@@ -45,16 +47,39 @@ def get_max_min_pop (borough):
 
     return (min_max)
 
+def get_neighborhood_count (borough):
 
-#print (get_max_min_pop ("Manhattan"))
+    f = open("data/neighborhood_data.json", "r")
+    n_data = json.load(f)
+    f.close()
+
+    n_count = 0
+
+    for n in n_data[borough]:
+       n_count+=1
+
+    return n_count
+
+
+borough_summary = {}
+
+for b in boroughs:
+    borough_summary[b] = {}
+    borough_summary[b]["Neighborhood Count"] = get_neighborhood_count(b)
+    borough_summary[b]["Min Pop"] = get_max_min_pop(b)[0]
+    borough_summary[b]["Max Pop"] = get_max_min_pop(b)[1]
+
+print (borough_summary)
+
+
+
+
 
 @app.route('/')
 def index():
     f = open("data/borough_agg_data.json", "r")
     #data = json.load(f)
     f.close()
-
-    
     
     return render_template('index.html', boroughs = boroughs)
 
