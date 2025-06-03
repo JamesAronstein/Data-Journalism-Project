@@ -10,6 +10,23 @@
     {% include 'map.svg' %}
   </div>
 
+  <div>
+    <form action="/micro" method="GET">
+      <label for="borough">Choose a borough:</label><br>
+      <select name="borough" id="select_borough">
+        {% for i in range (boroughs|length) %}
+                {% if boroughs[i] == borough %}
+                  <option value="{{boroughs[i]}}" selected>{{boroughs[i]}}</option>
+                {% else %}
+                  <option value="{{boroughs[i]}}">{{boroughs[i]}}</option>
+                {% endif %}
+            {% endfor %}
+      </select>
+      <input type="submit" value="Submit">
+    </form> 
+  </div>
+
+
 {% endblock %}
 
 

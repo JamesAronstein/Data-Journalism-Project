@@ -1,8 +1,32 @@
 
 {% extends 'nav_bar_base.html' %}
 
+<html>
+<head>
+  <title><title>{{ borough }} Neighborhood Populations 2000-2010</title></title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
 {% block content %}
-  <h1> Micro - James Aronstein</h1>
+  <h1> {{ borough }} Neighborhood Populations 2000-2010</h1>
+
+
+  {% set x_axis_left = 52 %}
+  {% set x_axis_y = 500 %}
+  {% set x_axis_right = 548 %}
+
+ 
+
+  
+
+
+
+  {% set y_axis_x = 52 %}
+  {% set y_axis_bottom = 500 %}
+  {% set y_axis_top = 50 %}
+  
+
 
   <div id="line_graph_all_boroughs"> 
     {% include 'graph.svg' %}  <!-- </width="300"  height="300"> -->
@@ -10,3 +34,5 @@
   </div>
 
 {% endblock %}
+
+</html>

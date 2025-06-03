@@ -23,30 +23,53 @@ import json
 
 app = Flask(__name__, static_url_path='', static_folder='static')
 
+boroughs = ["Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]
+
+
+def get_max_min_pop (borough):
+    f = open("data/neighborhood_data.json", "r")
+    n_data = json.load(f)
+    f.close()
+
+    pop_values = []
+
+    for n in n_data[borough]:
+        pop_values.append(n_data[borough][n][0])
+        pop_values.append(n_data[borough][n][0])
+
+    min_max = []
+    #first element [0] is the min, second element [1] is the max
+
+    min_max.append(min(pop_values))
+    min_max.append(max(pop_values))
+
+    return (min_max)
+
+
+#print (get_max_min_pop ("Manhattan"))
 
 @app.route('/')
 def index():
-    f = open("data/data.json", "r")
+    f = open("data/borough_agg_data.json", "r")
     #data = json.load(f)
     f.close()
 
     
     
-    return render_template('index.html')
+    return render_template('index.html', boroughs = boroughs)
 
 
 
 
 @app.route('/micro')
 def micro():
-    f = open("data/data.json", "r")
+    f = open("data/neighborhood_data.json", "r")
     #data = json.load(f)
     f.close()
+
+    borough = request.args.get("borough")
     
-   
-
-
-    return render_template('micro.html')
+    return render_template('micro.html', boroughs = boroughs, borough = borough)
 
 @app.route('/about')
 def about():
