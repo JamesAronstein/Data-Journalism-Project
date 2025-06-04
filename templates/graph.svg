@@ -1,9 +1,11 @@
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-40 -30 850 600" width="890" height="630">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="890" height="630">
      <!-- graph title -->
 
      <!-- <text class="label" x="300 " y="0" text-anchor="middle" style="font-size: 30px;" fill="black" >North American Life Expectancies 1960-2022</text>  -->
      
+
+     <line class="line" x1= "52" y1="575" x2="548" y2="500" stroke-linecap="round" stroke = "black" />
      
      <!-- x axis -->
      <line class="line" x1= "{{ x_axis_left }}" y1="{{ x_axis_y }}" x2="{{ x_axis_right }}" y2="{{ x_axis_y }}" stroke-linecap="round" stroke = "black" />

@@ -13,9 +13,8 @@
 
 #templates folder would have files for: about.html, index.html, micro.html, graph.svg, map.svg (would prob have one for all 5 boros)
 
-#find the life expectancy code on the Trinity shared github
 
-##FIX THE FORMAT DATA TO GET THE VALUES IN NEIGHBORHOOD DATA TO BE NUMS, NOT STRINGS
+
 
 
 from flask import Flask
@@ -33,17 +32,24 @@ def get_max_min_pop (borough):
     f.close()
 
     pop_values = []
+    percent_values = []
 
     for n in n_data[borough]:
         print (n_data[borough][n])
         pop_values.append(n_data[borough][n][0])
         pop_values.append(n_data[borough][n][1])
+        percent_values.append(n_data[borough][n][3])
 
     min_max = []
-    #first element [0] is the min, second element [1] is the max
+    #first element [0] is the min pop, second element [1] is the max pop, #third element [2] is the min %change, fourth element [3] is the max %change
+
+    
 
     min_max.append(min(pop_values))
     min_max.append(max(pop_values))
+
+    min_max.append(min(percent_values))
+    min_max.append(max(percent_values))
 
     return (min_max)
 
@@ -68,6 +74,8 @@ for b in boroughs:
     borough_summary[b]["Neighborhood Count"] = get_neighborhood_count(b)
     borough_summary[b]["Min Pop"] = get_max_min_pop(b)[0]
     borough_summary[b]["Max Pop"] = get_max_min_pop(b)[1]
+    borough_summary[b]["Min Percent Change"] = get_max_min_pop(b)[2]
+    borough_summary[b]["Max Percent Change"] = get_max_min_pop(b)[3]
 
 print (borough_summary)
 
@@ -89,10 +97,11 @@ def index():
 @app.route('/micro')
 def micro():
     f = open("data/neighborhood_data.json", "r")
-    #data = json.load(f)
+    n_data = json.load(f)
     f.close()
 
     borough = request.args.get("borough")
+
     
     return render_template('micro.html', boroughs = boroughs, borough = borough)
 
