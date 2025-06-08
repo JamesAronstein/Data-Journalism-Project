@@ -35,7 +35,7 @@ def get_max_min_pop (borough):
     percent_values = []
 
     for n in n_data[borough]:
-        print (n_data[borough][n])
+        #print (n_data[borough][n])
         pop_values.append(n_data[borough][n][0])
         pop_values.append(n_data[borough][n][1])
         percent_values.append(n_data[borough][n][3])
@@ -77,7 +77,7 @@ for b in boroughs:
     borough_summary[b]["Min Percent Change"] = get_max_min_pop(b)[2]
     borough_summary[b]["Max Percent Change"] = get_max_min_pop(b)[3]
 
-print (borough_summary)
+#print (borough_summary)
 
 
 
