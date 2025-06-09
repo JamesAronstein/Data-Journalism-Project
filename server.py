@@ -13,7 +13,7 @@
 
 #templates folder would have files for: about.html, index.html, micro.html, graph.svg, map.svg (would prob have one for all 5 boros)
 
-
+#FIGURE OUT WHY THE MAP ISN'T CHANGING COLOR, I TRIED TO GET THE GET SATURATION WORKING
 
 
 
@@ -26,7 +26,7 @@ app = Flask(__name__, static_url_path='', static_folder='static')
 
 boroughs = ["Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]
 
-def get_max_min_pop (borough):
+def get_max_min_pop_neighborhood (borough):
     f = open("data/neighborhood_data.json", "r")
     n_data = json.load(f)
     f.close()
@@ -66,14 +66,47 @@ def get_neighborhood_count (borough):
 
     return n_count
 
+def get_max_min_borough(data):
+    #returns a list, [0] is min, [1] is max
+    b_pops = []
+    for n in data:
+        b_pops.append(data[n][3])
+    b_pops.sort()
+
+    return (b_pops[0], b_pops[-1])
+
+
+def get_lightness(data, borough):
+    min = get_max_min_borough(data)[0]
+    max = get_max_min_borough(data)[1]
+
+    range = max - min
+    scale_factor = 80/range
+
+    pop_value =  data[borough][3]
+
+
+    #the scale here is that this lightness variable is lower for lower pop changes, but I change that in the map.svg, so it's darker for a greater pop change
+    lightness = (pop_value - min) * scale_factor
+
+    return {
+        "min": min,
+        "max": max,
+        "range": range,
+        "scale_factor": scale_factor,
+        "lightness": lightness
+        }
+
 
 @app.route('/')
 def index():
     f = open("data/borough_agg_data.json", "r")
-    #data = json.load(f)
+    b_agg_data = json.load(f)
     f.close()
+
+   
     
-    return render_template('index.html', boroughs = boroughs)
+    return render_template('index.html', boroughs = boroughs, b_agg_data = b_agg_data, get_max_min_borough = get_max_min_borough, get_lightness = get_lightness)
 
 
 
@@ -102,10 +135,10 @@ def micro():
     for b in boroughs:
         borough_summary[b] = {}
         borough_summary[b]["Neighborhood Count"] = get_neighborhood_count(b)
-        borough_summary[b]["Min Pop"] = get_max_min_pop(b)[0]
-        borough_summary[b]["Max Pop"] = get_max_min_pop(b)[1]
-        borough_summary[b]["Min Percent Change"] = get_max_min_pop(b)[2]
-        borough_summary[b]["Max Percent Change"] = get_max_min_pop(b)[3]
+        borough_summary[b]["Min Pop"] = get_max_min_pop_neighborhood(b)[0]
+        borough_summary[b]["Max Pop"] = get_max_min_pop_neighborhood(b)[1]
+        borough_summary[b]["Min Percent Change"] = get_max_min_pop_neighborhood(b)[2]
+        borough_summary[b]["Max Percent Change"] = get_max_min_pop_neighborhood(b)[3]
 
     
 
