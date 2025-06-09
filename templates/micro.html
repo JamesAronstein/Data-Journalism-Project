@@ -19,10 +19,22 @@
   {% set vb_y_mid = vb_height/2 %}
 
   {% set bar_graph_top = vb_top + 70 %}
-  {% set bar_graph_bottom = vb_height - 200 %}
+  {% set bar_graph_bottom = vb_height - 70 %}
   {% set xax_g1_left = vb_left + 150 %}
   {% set xax_g1_right = vb_x_mid - 50 %}
   {% set xax_g1_mid = (xax_g1_right -  xax_g1_left)/2 + xax_g1_left %}
+
+  {% set max_x_pc = max_pc_borough[borough] %}
+  {% set x_sf = (xax_g1_right - xax_g1_mid) / max_pc_borough[borough] %}
+
+
+  {% set bar_top = bar_graph_top %}
+  {% set bar_height = bar_height_borough[borough] %}
+  {% set bar_space = ( (bar_graph_bottom - bar_graph_top) - ( bar_height * borough_summary[borough]["Neighborhood Count"] ) ) / ( borough_summary[borough]["Neighborhood Count"] + 1 ) %}
+
+
+
+  
 
 
 

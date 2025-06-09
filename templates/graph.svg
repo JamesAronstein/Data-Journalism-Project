@@ -1,6 +1,9 @@
 
   <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="890" height="630"> -->
 
+
+ <!-- FINISH THIS UP, ADD AXES TITLES, FIX FORMATTING AND GRAPH TITLES, FIX Y-AXIS LABELS, SHIFT Graph, maybe hover -->
+
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="{{ vb_left }} {{ vb_top }} {{ vb_width }} {{ vb_height }}"  width="1300" height="650">
      <style>
 
@@ -40,10 +43,48 @@
      <!-- y-axis -->
      <line class="line" x1= "{{ xax_g1_left }}" y1="{{ bar_graph_top }}" x2="{{ xax_g1_left }}" y2="{{ bar_graph_bottom}}" stroke-linecap="round" stroke = "black" />
 
+     <!-- x-axis tick marks  -->
+
+     {% if borough == "Manhattan" %}
+          {% set td = 10 %}
+     {% else %}  
+          {% set td = 5 %}
+     {% endif %}
+     
+     {% for n in range (max_x_pc * -1, max_x_pc + 1, td) %}
+          <!-- tick marks  -->
+          <line class="line" x1= "{{ xax_g1_mid + n * x_sf }}" y1="{{ bar_graph_bottom - 10 }}" x2="{{ xax_g1_mid + n * x_sf }}" y2="{{ bar_graph_bottom + 10 }}" stroke-linecap="round" stroke = "black"/>
+          
+          <!-- labels  -->
+          <text class="label" x="{{xax_g1_mid + n * x_sf}}" y="{{ bar_graph_bottom + 20 }}" text-anchor="middle" dominant-baseline="middle" >{{n}}</text>  
+     {% endfor %}  
+
+
+     <!-- bars  -->
+
+     {% for n in get_n_pc_order(borough) %}
+          {% set i = loop.index0 %}
+          {% set bar_top = bar_graph_top + bar_space + i * (bar_height + bar_space) %}
+    
+          {% if n[1] > 0 %}
+               <rect class="bar" x="{{ xax_g1_mid }}" y="{{ bar_top }} " width="{{ n[1] * x_sf }}" height="{{ bar_height }}" fill="green"/>  
+               
+          {% else %}  
+               <rect class="bar" x="{{ xax_g1_mid + n[1] * x_sf }}" y="{{ bar_top }}" width="{{ (n[1] * x_sf) | abs }}" height="{{ bar_height }}" fill="red"/>
+          {% endif %}
+
+          <text class="label" x="{{ (xax_g1_left - vb_left ) / 2 }}" y="{{ bar_top }}" text-anchor="middle" dominant-baseline="middle" >{{n[0]}}</text>  
+         
+     {% endfor %}  
+
 
 
      
 
+
+    
+
+     
 
 
 
@@ -53,6 +94,8 @@
      <!--  -->
 
      {#
+
+     <rect class="bar" x="{{ xax_g1_mid }}" y="100 " width="{{ n[1] * x_sf }}" height="{{ bar_height }}" fill="green"/>
 
      <!-- <text class="label" x="300 " y="0" text-anchor="middle" style="font-size: 30px;" fill="black" >North American Life Expectancies 1960-2022</text>  -->
 

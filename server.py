@@ -67,22 +67,6 @@ def get_neighborhood_count (borough):
     return n_count
 
 
-borough_summary = {}
-
-for b in boroughs:
-    borough_summary[b] = {}
-    borough_summary[b]["Neighborhood Count"] = get_neighborhood_count(b)
-    borough_summary[b]["Min Pop"] = get_max_min_pop(b)[0]
-    borough_summary[b]["Max Pop"] = get_max_min_pop(b)[1]
-    borough_summary[b]["Min Percent Change"] = get_max_min_pop(b)[2]
-    borough_summary[b]["Max Percent Change"] = get_max_min_pop(b)[3]
-
-#print (borough_summary)
-
-
-
-
-
 @app.route('/')
 def index():
     f = open("data/borough_agg_data.json", "r")
@@ -96,14 +80,68 @@ def index():
 
 @app.route('/micro')
 def micro():
+
+    max_pc_borough = {
+        "Bronx": 30,
+        "Brooklyn": 20,
+        "Manhattan": 100,
+        "Queens": 20,
+        "Staten Island": 30
+    }
+
+    bar_height_borough = {
+        "Bronx": 17,
+        "Brooklyn": 12,
+        "Manhattan": 24,
+        "Queens": 10,
+        "Staten Island": 40
+    }
+
+    borough_summary = {}
+
+    for b in boroughs:
+        borough_summary[b] = {}
+        borough_summary[b]["Neighborhood Count"] = get_neighborhood_count(b)
+        borough_summary[b]["Min Pop"] = get_max_min_pop(b)[0]
+        borough_summary[b]["Max Pop"] = get_max_min_pop(b)[1]
+        borough_summary[b]["Min Percent Change"] = get_max_min_pop(b)[2]
+        borough_summary[b]["Max Percent Change"] = get_max_min_pop(b)[3]
+
+    
+
+    
+
     f = open("data/neighborhood_data.json", "r")
     n_data = json.load(f)
     f.close()
 
+    def get_pc(tup):
+        return (tup[1])
+
+
+
+    def get_n_pc_order (borough):
+        n_pc_pairs = []
+        for n in n_data[borough]:
+            pc = n_data[borough][n][3]
+            #adds a tuple (neighborhood, percent change) to the list that can then be sorted
+            n_pc_pairs.append( (n, pc))
+
+        n_pc_sorted = sorted(n_pc_pairs, key = get_pc, reverse = True)
+
+        '''
+        n_sorted =  []
+        for t in npc_sorted:
+            n_sorted.append(t[0])
+        '''
+       
+
+        return n_pc_sorted
+
     borough = request.args.get("borough")
 
     
-    return render_template('micro.html', boroughs = boroughs, borough = borough)
+    return render_template('micro.html', n_data = n_data, boroughs = boroughs, borough = borough, borough_summary = borough_summary, max_pc_borough = max_pc_borough, bar_height_borough = bar_height_borough, get_n_pc_order = get_n_pc_order )
 
 @app.route('/about')
 def about():
