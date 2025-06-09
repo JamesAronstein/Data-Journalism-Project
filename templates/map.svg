@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!-- viewBox="0 0 1999.709 1977.598" enable-background="new 0 0 1999.709 1977.598" xml:space="preserve"> -->
+<!--viewBox="{{ vb_left }} {{ vb_top }} {{ vb_width }} {{ vb_height }}"  width="1300" height="650"> -->
+
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1"
 	 id="NYC" xmlns:cc="http://creativecommons.org/ns#" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" inkscape:version="0.47 r22583" sodipodi:docname="New_York_City_location_Manhattan.svg"
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 
-	 viewBox="0 0 1999.709 1977.598" enable-background="new 0 0 1999.709 1977.598" xml:space="preserve">
+	 viewBox="0 0 2000 2000" width="1300" height="650">
+	 
+	
 
 
 
@@ -46,10 +51,67 @@
 
 
   .label{
-    font-size: 21px;
+    font-size: 40px;
     font-family: Arial, sans-serif;
     fill: blue;
   }
+</style>
+
+
+ {% set min = get_lightness(b_agg_data, "Staten Island")["min"] %}
+ {% set scale_factor = get_lightness(b_agg_data, "Staten Island")["scale_factor"] %}
+	
+	
+
+ 
+
+ <!--- x axis --> 
+ <line class="line" x1= "2050" y1="500" x2="2950" y2="500" stroke = "black" stroke-width="10" />
+ {% for n in range (0, 7) %}
+
+    <line class="line" x1= "{{2050 + 150*n }}" y1="510" x2="{{2050 + 150*n }}" y2="490" stroke-linecap="round" stroke = "black" stroke-width="10" /> 
+    <text class="label" x="{{2050 + 150*n }}" y="550" text-anchor="middle">{{ n }}</text> 
+    <!--  colored circle --> 
+    <circle cx="{{2050 + 150*n }}" cy="420" r="45" fill = "hsl( {{hue}},{{ saturation}}%, {{  90-( (n - min) * scale_factor ) }}%)"/>
+  {% endfor %}
+
+
+ <!--- graph legend --> 
+ <text x="2500" y="305" text-anchor="middle" style="font-size: 50px;" fill="black" >Corresponding shades of green </text>
+ <text x="2500" y="360" text-anchor="middle" style="font-size: 50px;" fill="black" >for different population percent changes </text>
+
+
+ <!-- text summary --> 
+  <text x="2500" y="1000" text-anchor="middle" style="font-size: 48px;" fill="black" > Data Summary: </text>
+  <text x="2025" y="1100" text-anchor="start" style="font-size: 48px;" fill="black" > Between 2000 and 2010, </text>
+
+  {% set ordered_data = sort_boroughs(b_agg_data) %}
+
+  {% for p in ordered_data %}
+	{% if p[0] == "Bronx" %}
+		<text x="2025" y="{{1150 + loop.index0*50}}" text-anchor="start" style="font-size: 48px;" fill="black" > The {{ p[0] }}'s population increased by {{ p[1] | round(2) }}%, </text>
+	{% else %}
+		<text x="2025" y="{{1150 + loop.index0*50}}" text-anchor="start" style="font-size: 48px;" fill="black" > {{ p[0] }}'s population increased by {{ p[1] | round(2) }}%, </text>
+  	{% endif %}
+  {% endfor %}
+
+  <!-- note on nyc overall --> 
+  <text x="2025" y="1400" text-anchor="start" style="font-size: 48px;" fill="black" > and overall, New York City's population </text>
+  <text x="2025" y="1450" text-anchor="start" style="font-size: 48px;" fill="black" > increased by {{ nyc_aggs[3] | round(2) }}%. </text>
+
+  <!-- key takeaways --> 
+
+  <text x="-500" y="500" text-anchor="middle" style="font-size: 50px;" fill="black" > Key Takeaways: </text>
+
+  <text x="-1000" y="700" text-anchor="start" style="font-size: 50px;" fill="black" > Between 2000 and 2010, each </text>
+  <text x="-1000" y="750" text-anchor="start" style="font-size: 50px;" fill="black" > borough's population increased. </text>
+  
+  <text x="-1000" y="900" text-anchor="start" style="font-size: 50px;" fill="black" > Staten Island's population had the </text>
+  <text x="-1000" y="950" text-anchor="start" style="font-size: 50px;" fill="black" > greatest percent increase. </text>
+  
+  
+  <text x="-1000" y="1100" text-anchor="start" style="font-size: 50px;" fill="black" > Brooklyn's population had </text>
+   <text x="-1000" y="1150" text-anchor="start" style="font-size: 50px;" fill="black" > the smallest percent increase. </text>
   
 
 
@@ -57,7 +119,24 @@
 
 
 
-  </style>
+	
+  
+  
+  
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+ 
 
 
 

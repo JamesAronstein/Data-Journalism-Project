@@ -26,6 +26,9 @@ app = Flask(__name__, static_url_path='', static_folder='static')
 
 boroughs = ["Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island"]
 
+def get_pc(tup):
+    return (tup[1])
+
 def get_max_min_pop_neighborhood (borough):
     f = open("data/neighborhood_data.json", "r")
     n_data = json.load(f)
@@ -98,15 +101,41 @@ def get_lightness(data, borough):
         }
 
 
+def sort_boroughs (data):
+    b_pc_pairs = []
+    for b in data:
+        pc = data[b][3]
+        #adds a tuple (neighborhood, percent change) to the list that can then be sorted
+        b_pc_pairs.append( (b, pc))
+
+    b_pc_sorted = sorted(b_pc_pairs, key = get_pc, reverse = True)
+    return b_pc_sorted
+
+
 @app.route('/')
 def index():
     f = open("data/borough_agg_data.json", "r")
     b_agg_data = json.load(f)
     f.close()
 
+    nyc_aggs = []
+    
+    popi = 0
+    popf = 0
+
+    for b in b_agg_data:
+        popi += b_agg_data[b][0]
+        popf += b_agg_data[b][1]
+    
+    nyc_aggs.append(popi)
+    nyc_aggs.append(popf)
+    nyc_aggs.append(popf - popi)
+    nyc_aggs.append(((popf - popi)/popi) * 100)
+        
+
    
     
-    return render_template('index.html', boroughs = boroughs, b_agg_data = b_agg_data, get_max_min_borough = get_max_min_borough, get_lightness = get_lightness)
+    return render_template('index.html', nyc_aggs = nyc_aggs, boroughs = boroughs, b_agg_data = b_agg_data, get_max_min_borough = get_max_min_borough, get_lightness = get_lightness, sort_boroughs = sort_boroughs)
 
 
 
@@ -148,8 +177,7 @@ def micro():
     n_data = json.load(f)
     f.close()
 
-    def get_pc(tup):
-        return (tup[1])
+ 
 
 
 

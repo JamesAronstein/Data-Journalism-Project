@@ -4,13 +4,17 @@
 {% extends 'nav_bar_base.html' %}
 
 {% block content %}
-  <h1> Macro - James Aronstein</h1>
+  <h1 style="text-align: center;"> Borough Population Growth 2000-2010</h1>
 
 
-
+  {% set vb_left = 0 %}
+  {% set vb_top = 0 %}
+  {% set vb_width = 2000 %}
+  {% set vb_height = 1000 %}
+  {% set vb_x_mid = vb_width/2 %}
+  {% set vb_y_mid = vb_height/2 %}
 
   {% set hue = 130 %}
-
   {% set saturation = 80 %}
 
   <div id="line_graph_all_boroughs" style="width: 650px; height: 650px;">
