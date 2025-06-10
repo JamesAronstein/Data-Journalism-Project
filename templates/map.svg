@@ -83,21 +83,21 @@
 
  <!-- text summary --> 
   <text x="2500" y="1000" text-anchor="middle" style="font-size: 48px;" fill="black" > Data Summary: </text>
-  <text x="2025" y="1100" text-anchor="start" style="font-size: 48px;" fill="black" > Between 2000 and 2010, </text>
+  <text x="2005" y="1100" text-anchor="start" style="font-size: 48px;" fill="black" > Between 2000 and 2010, </text>
 
   {% set ordered_data = sort_boroughs(b_agg_data) %}
 
   {% for p in ordered_data %}
 	{% if p[0] == "Bronx" %}
-		<text x="2025" y="{{1150 + loop.index0*50}}" text-anchor="start" style="font-size: 48px;" fill="black" > The {{ p[0] }}'s population increased by {{ p[1] | round(2) }}%, </text>
+		<text x="2005" y="{{1150 + loop.index0*50}}" text-anchor="start" style="font-size: 48px;" fill="black" > The {{ p[0] }}'s population increased by {{ p[1] | round(2) }}%, </text>
 	{% else %}
-		<text x="2025" y="{{1150 + loop.index0*50}}" text-anchor="start" style="font-size: 48px;" fill="black" > {{ p[0] }}'s population increased by {{ p[1] | round(2) }}%, </text>
+		<text x="2005" y="{{1150 + loop.index0*50}}" text-anchor="start" style="font-size: 48px;" fill="black" > {{ p[0] }}'s population increased by {{ p[1] | round(2) }}%, </text>
   	{% endif %}
   {% endfor %}
 
   <!-- note on nyc overall --> 
-  <text x="2025" y="1400" text-anchor="start" style="font-size: 48px;" fill="black" > and overall, New York City's population </text>
-  <text x="2025" y="1450" text-anchor="start" style="font-size: 48px;" fill="black" > increased by {{ nyc_aggs[3] | round(2) }}%. </text>
+  <text x="2005" y="1400" text-anchor="start" style="font-size: 48px;" fill="black" > and overall, New York City's population </text>
+  <text x="2005" y="1450" text-anchor="start" style="font-size: 48px;" fill="black" > increased by {{ nyc_aggs[3] | round(2) }}%. </text>
 
   <!-- key takeaways --> 
 

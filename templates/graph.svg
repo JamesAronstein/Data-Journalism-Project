@@ -1,9 +1,6 @@
 
   <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="890" height="630"> -->
 
-
- <!-- FINISH THIS UP, ADD AXES TITLES, FIX FORMATTING AND GRAPH TITLES, FIX Y-AXIS LABELS, SHIFT Graph, maybe hover -->
-
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="{{ vb_left }} {{ vb_top }} {{ vb_width }} {{ vb_height }}"  width="1300" height="650">
      <style>
 
@@ -13,36 +10,27 @@
           fill: black;  
      }
 
-
      </style>
 
 
-     <!-- graph title -->
-
-
-
-     <!-- center dividing line -->
-
-     <!--  -->
-
-     <line class="line" x1= "{{ vb_x_mid }}" y1="{{ vb_top }}" x2="{{ vb_x_mid }}" y2="{{ vb_height }}" stroke-linecap="round" stroke = "black" />
-
-     <!-- <line class="line" x1= "{{ vb_left}}" y1="{{ vb_top }}" x2="{{ vb_width }}" y2="{{ vb_height }}" stroke-linecap="round" stroke = "black" /> -->
-     
-     
-     <!-- left graph - population changes -->
-     <text class="graph_title" x="{{ vb_x_mid/2 }}" y="{{ vb_top + 40}}" text-anchor="middle">Percent Changes </text> 
-
-     
      <!-- center line at x = 0 -->
      <line class="line" x1= "{{ xax_g1_mid }}" y1="{{ bar_graph_top }}" x2="{{ xax_g1_mid }}" y2="{{ bar_graph_bottom}}" stroke-linecap="round" stroke = "black" />
 
      <!-- x-axis -->
      <line class="line" x1= "{{ xax_g1_left }}" y1="{{ bar_graph_bottom }}" x2="{{ xax_g1_right }}" y2="{{ bar_graph_bottom}}" stroke-linecap="round" stroke = "black" />
 
+     
+     <!-- x-axis label -->
+     <text class="label" x="{{ xax_g1_mid }}" y="{{ bar_graph_bottom + 60 }}" style="font-size: 30px;" text-anchor="middle"> % Population Change </text>  
+
+
      <!-- y-axis -->
      <line class="line" x1= "{{ xax_g1_left }}" y1="{{ bar_graph_top }}" x2="{{ xax_g1_left }}" y2="{{ bar_graph_bottom}}" stroke-linecap="round" stroke = "black" />
 
+     <!-- y-axis label -->
+     <text class="label" x="{{ xax_g1_left - 25  }}" y="{{ bar_graph_y_mid }}" style="font-size: 30px;" text-anchor="middle" transform="rotate(-90 {{ xax_g1_left - 25 }} {{ bar_graph_y_mid }})" >Neighborhood</text>  
+
+    
      <!-- x-axis tick marks  -->
 
      {% if borough == "Manhattan" %}
@@ -56,11 +44,18 @@
           <line class="line" x1= "{{ xax_g1_mid + n * x_sf }}" y1="{{ bar_graph_bottom - 10 }}" x2="{{ xax_g1_mid + n * x_sf }}" y2="{{ bar_graph_bottom + 10 }}" stroke-linecap="round" stroke = "black"/>
           
           <!-- labels  -->
-          <text class="label" x="{{xax_g1_mid + n * x_sf}}" y="{{ bar_graph_bottom + 20 }}" text-anchor="middle" dominant-baseline="middle" >{{n}}</text>  
+          <text class="label" x="{{xax_g1_mid + n * x_sf}}" y="{{ bar_graph_bottom + 25 }}" style="font-size: 20px;" text-anchor="middle" dominant-baseline="middle" >{{n}}</text>  
      {% endfor %}  
 
 
      <!-- bars  -->
+
+     {% if borough in ["Brooklyn", "Queens"] %}
+          {% set n_label_size = 19 %}
+     {% else %}  
+          {% set n_label_size = 23 %}
+     {% endif %}
+     
 
      {% for n in get_n_pc_order(borough) %}
           {% set i = loop.index0 %}
@@ -68,46 +63,75 @@
     
           {% if n[1] > 0 %}
                <rect class="bar" x="{{ xax_g1_mid }}" y="{{ bar_top }} " width="{{ n[1] * x_sf }}" height="{{ bar_height }}" fill="green"/>  
+
                
+               {% if n[0] == borough %}
+                    <text class="label" x="{{ xax_g1_mid - 5}}" y="{{ bar_top + (bar_height / 2)}}" style="font-size: {{ n_label_size }}px; font-weight: bold;" text-anchor="end" dominant-baseline="middle" >{{n[0]}}</text>  
+               {% else %}
+                    <text class="label" x="{{ xax_g1_mid - 5}}" y="{{ bar_top + (bar_height / 2)}}" style="font-size: {{ n_label_size }}px;" text-anchor="end" dominant-baseline="middle" >{{n[0]}}</text>  
+               {% endif %}
+         
           {% else %}  
                <rect class="bar" x="{{ xax_g1_mid + n[1] * x_sf }}" y="{{ bar_top }}" width="{{ (n[1] * x_sf) | abs }}" height="{{ bar_height }}" fill="red"/>
+
+               <text class="label" x="{{ xax_g1_mid + 5}}" y="{{ bar_top + (bar_height / 2)}}" style="font-size: {{ n_label_size }}px;" text-anchor="start" dominant-baseline="middle" >{{n[0]}}</text>  
+          
           {% endif %}
 
-          <text class="label" x="{{ (xax_g1_left - vb_left ) / 2 }}" y="{{ bar_top }}" text-anchor="middle" dominant-baseline="middle" >{{n[0]}}</text>  
+          
          
      {% endfor %}  
 
 
+     <!-- text summary --> 
+     <text x="{{ xax_g1_right + ( (vb_width - xax_g1_right) /2 ) }}" y="370" text-anchor="middle" style="font-size: 30px;" fill="black" > Data Summary: </text>
 
+     
+     {% if borough == "Bronx" %}
+		<text x="{{ xax_g1_right }}" y="420" text-anchor="start" style="font-size: 23px;" fill="black"> Between 2000 and 2010, The {{ borough }}'s population </text>
+	{% else %}
+		<text x="{{ xax_g1_right }}" y="420" text-anchor="start" style="font-size: 23px;" fill="black" > Between 2000 and 2010, {{ borough }}'s population </text>
+  	{% endif %}
+     <text x="{{ xax_g1_right }}" y="450" text-anchor="start" style="font-size: 23px;" fill="black" > increased by {{ b_data[borough][3] | round(2) }}%. </text>
+
+
+     {% if borough == "Bronx" %}
+		<text x="{{ xax_g1_right }}" y="510" text-anchor="start" style="font-size: 23px;" fill="black"> Of all neighborhoods in The {{ borough }}, </text>
+          <text x="{{ xax_g1_right }}" y="600" text-anchor="start" style="font-size: 23px;" fill="black" > {{ get_n_pc_order(borough)[0][1] - b_data[borough][3] | round(2) }} percentage points greater than The {{ borough }}'s average. </text>
+	{% elif borough == "Staten Island" %}
+          <text x="{{ xax_g1_right }}" y="510" text-anchor="start" style="font-size: 23px;" fill="black" > Of all neighborhoods in {{ borough }}, </text>
+          <text x="{{ xax_g1_right }}" y="600" text-anchor="start" style="font-size: 23px;" fill="black" > {{ get_n_pc_order(borough)[0][1] - b_data[borough][3] | round(2) }} percentage points greater </text>
+          <text x="{{ xax_g1_right }}" y="630" text-anchor="start" style="font-size: 23px;" fill="black" > than {{ borough }}'s average. </text>
+     {% else %}
+          <text x="{{ xax_g1_right }}" y="510" text-anchor="start" style="font-size: 23px;" fill="black" > Of all neighborhoods in {{ borough }}, </text>
+          <text x="{{ xax_g1_right }}" y="600" text-anchor="start" style="font-size: 23px;" fill="black" > {{ get_n_pc_order(borough)[0][1] - b_data[borough][3] | round(2) }} percentage points greater than {{ borough }}'s average. </text>
+     {% endif %}
+
+
+     <text x="{{ xax_g1_right }}" y="540" text-anchor="start" style="font-size: 23px;" fill="black" > {{ get_n_pc_order(borough)[0][0] }} had the greatest  </text>     
+     <text x="{{ xax_g1_right }}" y="570" text-anchor="start" style="font-size: 23px;" fill="black" > percent population growth, increasing by {{ get_n_pc_order(borough)[0][1] | round(2) }}%, </text>
      
 
 
-    
-
+     {% if borough == "Staten Island" %}
+          <text x="{{ xax_g1_right }}" y="690" text-anchor="start" style="font-size: 23px;" fill="black" > Meanwhile, {{ get_n_pc_order(borough)[-1][0] }} had the largest  </text>     
+          <text x="{{ xax_g1_right }}" y="720" text-anchor="start" style="font-size: 23px;" fill="black" > percent population loss, decreasing by {{ get_n_pc_order(borough)[-1][1] | round(2) }}%, </text>
      
-
-
-
-
-
-
+          {% if borough == "Bronx" %}
+               <text x="{{ xax_g1_right }}" y="750" text-anchor="start" style="font-size: 23px;" fill="black" > {{ (b_data[borough][3] - get_n_pc_order(borough)[-1][1]) | round(2) }} percentage points less than The {{ borough }}'s average. </text>
+	     {% else %}
+               <text x="{{ xax_g1_right }}" y="750" text-anchor="start" style="font-size: 23px;" fill="black" > {{ (b_data[borough][3] - get_n_pc_order(borough)[-1][1]) | round(2) }} percentage points less than {{ borough }}'s average. </text>
+          {% endif %}
+     {% else %}
+          <text x="{{ xax_g1_right }}" y="660" text-anchor="start" style="font-size: 23px;" fill="black" > Meanwhile, {{ get_n_pc_order(borough)[-1][0] }} had the largest  </text>     
+          <text x="{{ xax_g1_right }}" y="690" text-anchor="start" style="font-size: 23px;" fill="black" > percent population loss, decreasing by {{ get_n_pc_order(borough)[-1][1] | round(2) }}%, </text>
+     
+          {% if borough == "Bronx" %}
+               <text x="{{ xax_g1_right }}" y="720" text-anchor="start" style="font-size: 23px;" fill="black" > {{ (b_data[borough][3] - get_n_pc_order(borough)[-1][1]) | round(2) }} percentage points less than The {{ borough }}'s average. </text>
+	     {% else %}
+               <text x="{{ xax_g1_right }}" y="720" text-anchor="start" style="font-size: 23px;" fill="black" > {{ (b_data[borough][3] - get_n_pc_order(borough)[-1][1]) | round(2) }} percentage points less than {{ borough }}'s average. </text>
+          {% endif %}
+      {% endif %}
+     
      <!--  -->
-
-     {#
-
-     <rect class="bar" x="{{ xax_g1_mid }}" y="100 " width="{{ n[1] * x_sf }}" height="{{ bar_height }}" fill="green"/>
-
-     <!-- <text class="label" x="300 " y="0" text-anchor="middle" style="font-size: 30px;" fill="black" >North American Life Expectancies 1960-2022</text>  -->
-
-     <line class="line" x1= "52" y1="575" x2="548" y2="500" stroke-linecap="round" stroke = "black" />
-     
-     <!-- x axis -->
-     <line class="line" x1= "{{ x_axis_left }}" y1="{{ x_axis_y }}" x2="{{ x_axis_right }}" y2="{{ x_axis_y }}" stroke-linecap="round" stroke = "black" />
-
-     <!-- yaxis -->
-     <line class="line" x1= "{{ y_axis_x }}" y1="{{ y_axis_bottom }}" x2="{{ y_axis_x }}" y2="{{ y_axis_top }}" stroke-linecap="round" stroke = "black" />
-
-     <text class="label" x="{{ x_axis_mid }}" y="{{ x_axis_y + 40 }} " text-anchor="middle" dominant-baseline="hanging" >Population</text> 
-
-     #}
 </svg>

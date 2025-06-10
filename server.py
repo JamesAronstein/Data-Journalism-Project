@@ -13,7 +13,6 @@
 
 #templates folder would have files for: about.html, index.html, micro.html, graph.svg, map.svg (would prob have one for all 5 boros)
 
-#FIGURE OUT WHY THE MAP ISN'T CHANGING COLOR, I TRIED TO GET THE GET SATURATION WORKING
 
 
 
@@ -105,7 +104,7 @@ def sort_boroughs (data):
     b_pc_pairs = []
     for b in data:
         pc = data[b][3]
-        #adds a tuple (neighborhood, percent change) to the list that can then be sorted
+        #adds a tuple (borough, percent change) to the list that can then be sorted
         b_pc_pairs.append( (b, pc))
 
     b_pc_sorted = sorted(b_pc_pairs, key = get_pc, reverse = True)
@@ -152,10 +151,10 @@ def micro():
     }
 
     bar_height_borough = {
-        "Bronx": 17,
-        "Brooklyn": 12,
-        "Manhattan": 24,
-        "Queens": 10,
+        "Bronx": 18,
+        "Brooklyn": 14,
+        "Manhattan": 25,
+        "Queens": 12,
         "Staten Island": 40
     }
 
@@ -163,7 +162,7 @@ def micro():
 
     for b in boroughs:
         borough_summary[b] = {}
-        borough_summary[b]["Neighborhood Count"] = get_neighborhood_count(b)
+        borough_summary[b]["Neighborhood Count"] = get_neighborhood_count(b) + 1
         borough_summary[b]["Min Pop"] = get_max_min_pop_neighborhood(b)[0]
         borough_summary[b]["Max Pop"] = get_max_min_pop_neighborhood(b)[1]
         borough_summary[b]["Min Percent Change"] = get_max_min_pop_neighborhood(b)[2]
@@ -177,6 +176,10 @@ def micro():
     n_data = json.load(f)
     f.close()
 
+    g = open("data/borough_agg_data.json", "r")
+    b_data = json.load(g)
+    g.close()
+
  
 
 
@@ -187,6 +190,7 @@ def micro():
             pc = n_data[borough][n][3]
             #adds a tuple (neighborhood, percent change) to the list that can then be sorted
             n_pc_pairs.append( (n, pc))
+        n_pc_pairs.append( (borough, b_data[borough][3]) )
 
         n_pc_sorted = sorted(n_pc_pairs, key = get_pc, reverse = True)
 
@@ -202,11 +206,11 @@ def micro():
     borough = request.args.get("borough")
 
     
-    return render_template('micro.html', n_data = n_data, boroughs = boroughs, borough = borough, borough_summary = borough_summary, max_pc_borough = max_pc_borough, bar_height_borough = bar_height_borough, get_n_pc_order = get_n_pc_order )
+    return render_template('micro.html', b_data = b_data, n_data = n_data, boroughs = boroughs, borough = borough, borough_summary = borough_summary, max_pc_borough = max_pc_borough, bar_height_borough = bar_height_borough, get_n_pc_order = get_n_pc_order )
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html', boroughs= boroughs)
 
 
 

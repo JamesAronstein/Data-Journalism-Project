@@ -9,7 +9,7 @@
 </head>
 
 {% block content %}
-  <h1> {{ borough }} Neighborhood Populations 2000-2010</h1>
+  <h1  style="text-align: center;"> {{ borough }} Neighborhood Population Growth 2000-2010</h1>
 
   {% set vb_left = 0 %}
   {% set vb_top = 0 %}
@@ -18,10 +18,12 @@
   {% set vb_x_mid = vb_width/2 %}
   {% set vb_y_mid = vb_height/2 %}
 
-  {% set bar_graph_top = vb_top + 70 %}
+  {% set bar_graph_top = vb_top +15 %}
   {% set bar_graph_bottom = vb_height - 70 %}
-  {% set xax_g1_left = vb_left + 150 %}
-  {% set xax_g1_right = vb_x_mid - 50 %}
+  {% set bar_graph_y_mid = bar_graph_top + ( (bar_graph_bottom - bar_graph_top)/2 ) %}
+  
+  {% set xax_g1_left = vb_left + 75 %}
+  {% set xax_g1_right = 1400 %}
   {% set xax_g1_mid = (xax_g1_right -  xax_g1_left)/2 + xax_g1_left %}
 
   {% set max_x_pc = max_pc_borough[borough] %}

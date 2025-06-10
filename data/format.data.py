@@ -107,7 +107,7 @@ for b in full_data:
 
 
 
-
+#dump into jsons
 
 f1.close()
 
