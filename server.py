@@ -5,11 +5,6 @@
 #one for index, which has macro
 
 #and one for the micro, where I can use variables to pass in which micro
-    #its just one boro.html pg, that generates something different based on which boro is called with render template
-    #use if statement, based on which boro, to load which specific svg
-
-
-#for nav bar, I should have nav bar.html, and dynamically insert it into each one, so if I make changes in the nav bar, I only change it once
 
 #templates folder would have files for: about.html, index.html, micro.html, graph.svg, map.svg (would prob have one for all 5 boros)
 
@@ -210,7 +205,27 @@ def micro():
 
 @app.route('/about')
 def about():
-    return render_template('about.html', boroughs= boroughs)
+
+    f = open("data/borough_agg_data.json", "r")
+    b_agg_data = json.load(f)
+    f.close()
+
+    nyc_aggs = []
+    
+    popi = 0
+    popf = 0
+
+    for b in b_agg_data:
+        popi += b_agg_data[b][0]
+        popf += b_agg_data[b][1]
+    
+    nyc_aggs.append(popi)
+    nyc_aggs.append(popf)
+    nyc_aggs.append(popf - popi)
+    nyc_aggs.append(((popf - popi)/popi) * 100)
+
+    return render_template('about.html', boroughs = boroughs, nyc_aggs = nyc_aggs)
+
 
 
 

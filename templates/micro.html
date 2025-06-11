@@ -1,5 +1,5 @@
 
-{% extends 'nav_bar_base.html' %}
+{% extends 'template_base.html' %}
 
 <html>
 <head>
@@ -35,20 +35,6 @@
   {% set bar_space = ( (bar_graph_bottom - bar_graph_top) - ( bar_height * borough_summary[borough]["Neighborhood Count"] ) ) / ( borough_summary[borough]["Neighborhood Count"] + 1 ) %}
 
 
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
   {% set x_axis_left = 52 %}
   {% set x_axis_y = 500 %}
   {% set x_axis_right = 548 %}
@@ -62,7 +48,7 @@
 
 
   <div id="line_graph_all_boroughs"> 
-    {% include 'graph.svg' %}  <!-- </width="300"  height="300"> -->
+    {% include 'graph.svg' %} 
 
   </div>
 

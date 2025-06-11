@@ -115,7 +115,7 @@
 
      {% if borough == "Staten Island" %}
           <text x="{{ xax_g1_right }}" y="690" text-anchor="start" style="font-size: 23px;" fill="black" > Meanwhile, {{ get_n_pc_order(borough)[-1][0] }} had the largest  </text>     
-          <text x="{{ xax_g1_right }}" y="720" text-anchor="start" style="font-size: 23px;" fill="black" > percent population loss, decreasing by {{ get_n_pc_order(borough)[-1][1] | round(2) }}%, </text>
+          <text x="{{ xax_g1_right }}" y="720" text-anchor="start" style="font-size: 23px;" fill="black" > percent population loss, decreasing by {{ -1 * get_n_pc_order(borough)[-1][1] | round(2) }}%, </text>
      
           {% if borough == "Bronx" %}
                <text x="{{ xax_g1_right }}" y="750" text-anchor="start" style="font-size: 23px;" fill="black" > {{ (b_data[borough][3] - get_n_pc_order(borough)[-1][1]) | round(2) }} percentage points less than The {{ borough }}'s average. </text>
@@ -124,7 +124,7 @@
           {% endif %}
      {% else %}
           <text x="{{ xax_g1_right }}" y="660" text-anchor="start" style="font-size: 23px;" fill="black" > Meanwhile, {{ get_n_pc_order(borough)[-1][0] }} had the largest  </text>     
-          <text x="{{ xax_g1_right }}" y="690" text-anchor="start" style="font-size: 23px;" fill="black" > percent population loss, decreasing by {{ get_n_pc_order(borough)[-1][1] | round(2) }}%, </text>
+          <text x="{{ xax_g1_right }}" y="690" text-anchor="start" style="font-size: 23px;" fill="black" > percent population loss, decreasing by {{ -1 * get_n_pc_order(borough)[-1][1] | round(2) }}%, </text>
      
           {% if borough == "Bronx" %}
                <text x="{{ xax_g1_right }}" y="720" text-anchor="start" style="font-size: 23px;" fill="black" > {{ (b_data[borough][3] - get_n_pc_order(borough)[-1][1]) | round(2) }} percentage points less than The {{ borough }}'s average. </text>

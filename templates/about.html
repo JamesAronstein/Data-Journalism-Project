@@ -1,15 +1,93 @@
 
-{% extends 'nav_bar_base.html' %}
+{% extends 'template_base.html' %}
 
 {% block content %}
-  <h1> About - James Aronstein</h1>
+  <h1 style="text-align: center;"> About </h1>
 
-<!-- h1> reposition images and add text labels !</h1> -->
+  <style>
 
-<img src="{{ url_for('static', filename='images/IMG_4294.jpg') }}" alt="Macro" width="300" height="300">
-<img src="{{ url_for('static', filename='images/IMG_4295.jpg') }}" alt="Micro" width="300" height="300">
+    .image1 {
+      position: absolute; 
+      left: 0px;  /* x */
+      top: 265px;  /* y  */
+  
+    }
+
+    .image2 {
+      position: absolute; 
+      left: 1000px;
+      top: 265px;
+    }
+
+    .coordinate_box {
+      position: relative;
+      width: 1300px;
+      height: 650px; 
+    }
+
+    .context_header {
+      position: absolute;
+      left: 650px; 
+      top: 50px;
+      font-size: 30px; 
+      transform: translate(-50%, -50%);
+    }
+
+    .context_paragraph {
+      position: absolute;
+      left: 0px; 
+      top: 100px;
+      font-size: 25px; 
+    }
+
+    .prototype_analysis_paragraph1 {
+      position: absolute;
+      left: 305px; 
+      top: 265px;
+      font-size: 14px; 
+      max-width: 690px;
+    }
+
+    .prototype_analysis_paragraph2 {
+      position: absolute;
+      left: 305px; 
+      top: 440px;
+      font-size: 14px; 
+      max-width: 690px;
+    }
 
 
+
+
+  
+  </style>
+  
+        
+<!-- -->
+<!-- images -->
+
+<div class="coordinate_box">
+
+
+  <!-- context -->
+  <p class="context_header">Context:</p>
+  <p class="context_paragraph">New York City (NYC) is the biggest city in the United States, comprising a diverse set of boroughs and neighborhoods. Between 2000 and 2010, NYC's population increased by {{ nyc_aggs[3] | round(2) }}%, from 8,004,191 to 8,170,524. I wanted to investigate how these changes manifested in each borough and neighborhood of the city. </p>
+
+  <!-- prototype images -->
+  <img src="{{ url_for('static', filename='images/IMG_4294 2.jpg') }}" alt="Macro" width="300" height="300" class = "image1">
+  <img src="{{ url_for('static', filename='images/IMG_4295 2.jpg') }}" alt="Micro" width="300" height="300" class = "image2">
+
+  
+  <!-- prototype analysis -->
+  <p class="prototype_analysis_paragraph1"> 
+    Originally, for my macro page, I wanted to draw a line graph of each borough's populations in 2000 and 2010. However, in my feedback, I was advised that a line graph for my dataset of two data points for each borough would not be an effective option, as this graph would imply continuous data. My feedback also suggested that presenting percent changes for each borough may be more effective than presenting the raw populations, as the percent changes paint a clearer picture on the magnitude of the borough’s population changes. I ultimately used a bar graph with percent changes rather than a line graph with raw populations. However, I used this bar graph of percent change for each neighborhood in my micro pages instead of for each borough in the macro page.
+  </p>
+
+  <p class="prototype_analysis_paragraph2"> 
+    Originally, I planned to have one micro page for each borough, where I would include two maps of the borough, one for 2000, and the other for 2010. On the map, each neighborhood would be shaded a different color; a darker shade would represent a higher population while a lighter shade would represent a smaller population. My feedback suggested that having two maps would complicate the infographic and synthesizing the information into one graphic would be a more effective option. As a result, I presented the percent changes for each neighborhood in my micro pages. However, I couldn’t find svg maps that separated each borough into the neighborhoods from my dataset, so I used a bar graph to represent the neighborhood percent changes instead. I used the concept of shading a map differently for different populations for my macro page which included a map of the five boroughs of NYC, where each borough was shaded differently according to its population percent change.
+  </p>
+
+</div>
 
 
 {% endblock %}

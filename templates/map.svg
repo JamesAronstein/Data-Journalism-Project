@@ -61,9 +61,6 @@
  {% set min = get_lightness(b_agg_data, "Staten Island")["min"] %}
  {% set scale_factor = get_lightness(b_agg_data, "Staten Island")["scale_factor"] %}
 	
-	
-
- 
 
  <!--- x axis --> 
  <line class="line" x1= "2050" y1="500" x2="2950" y2="500" stroke = "black" stroke-width="10" />
